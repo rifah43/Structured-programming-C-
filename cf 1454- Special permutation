@@ -1,0 +1,22 @@
+#include<stdio.h>
+#include<string.h>
+#include <stdlib.h>
+int main()
+{
+    int i,t,n,j;
+    scanf("%d",&t);
+    for(i=1;i<=t;i++)
+    {
+        scanf("%d",&n);
+        int p[n];
+        for(j=0;j<n-1;j++)
+        {
+           p[j]=j+2;
+        }
+        p[n-1]=1;
+        for(j=0;j<n;j++)
+        {
+            printf("%d\n",p[j]);
+        }
+    }
+}
