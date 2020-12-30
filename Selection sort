@@ -1,0 +1,32 @@
+#include<stdio.h>
+int list[100];
+int main()
+{
+    int i,j,n,temp,min;
+    printf("Enter a number: \n");
+    scanf("%d",&n);
+    printf("Enter the digits in the array:\n");
+    for (i=0;i<n;i++)
+    {
+        scanf("%d",&list[i]);
+    }
+
+    for(i=0;i<n;i++)
+    {
+        min=i;
+        for(j=i+1;j<n;j++)
+        {
+            if(list[j]<list[min])//finding the minimum
+            {
+                min=j;
+            }
+        }
+        temp=list[i];//swapping to sort
+        list[i]=list[min];
+        list[min]=temp;
+    }
+    for (i=0;i<n;i++)
+    {
+        printf("%d\n",list[i]);
+    }
+}
