@@ -1,0 +1,41 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *next;
+};//creating node
+
+struct node *head=NULL;
+
+void Insert(int new_data)
+{
+    struct node *new_node=(struct node*)malloc(sizeof(struct node));//memory allocation of the size of node
+    new_node->data=new_data;
+    new_node->next=head;
+    head=new_node;
+}//input
+void display()
+{
+   struct node *ptr;
+   ptr=head;
+   while(ptr!=NULL)
+   {
+       printf("%d\n",ptr->data);
+       ptr=ptr->next;
+   }
+}//output
+int main(void)
+{
+    int n,i,dig;
+    printf("Insert input number \n");
+    scanf("%d",&n);
+    for(i=1;i<=n;i++)
+    {
+        scanf("%d",&dig);
+        Insert(dig);
+    }
+
+    display();
+}
