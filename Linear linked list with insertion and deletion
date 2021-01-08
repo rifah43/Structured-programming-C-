@@ -1,0 +1,103 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *next;
+};//creating node
+
+struct node *head=NULL;
+
+void Insert(int new_data)
+{
+    struct node *new_node=(struct node*)malloc(sizeof(struct node));//memory allocation of the size of node
+    new_node->data=new_data;
+    new_node->next=head;
+    head=new_node;
+}//input
+void display()
+{
+   struct node *ptr;
+   ptr=head;
+   while(ptr!=NULL)
+   {
+       printf("%d\n",ptr->data);
+       ptr=ptr->next;
+   }
+}//output
+
+int Search(int k)
+ {
+     struct node *currentnode=head;
+     int index=1;
+     while(currentnode!=NULL && currentnode->data!=k)
+     {
+         index++;
+         currentnode=currentnode->next;
+     }
+     if(currentnode!=NULL)
+        return index;
+     else
+        return -1;
+ } //search
+
+    struct node *Delete(int t)
+ {
+     struct node *p,*q;
+     q=head;
+     p=head->next;
+     if(q->data==t)
+     {
+         head=p;
+     }//if the digit is the first digit head is shifted
+     else
+     {
+         while(p->data!=t)
+         {
+             p=p->next;
+             q=q->next;
+         }//searching for the digit
+         if(p->next==NULL)
+         {
+             q->next=NULL;
+         }//if the digit is last digit then shifting null one index forward
+         else
+         {
+             q->next=p->next;
+         }//replacing q by p
+     }
+     return head;
+ }//delete
+int main(void)
+{
+    int n,i,dig,index,s,d;
+    printf("Insert input number \n");
+    scanf("%d",&n);
+    for(i=1;i<=n;i++)
+    {
+        printf("Input numbers \n");
+        scanf("%d",&dig);
+        Insert(dig);
+    }
+
+    display();
+
+    printf("Insert the number you want to search\n");
+    scanf("%d",&s);
+    index=Search(s);
+    if(index>=0)
+       {
+           printf("found at position : %d\n",index);
+       }
+    else
+        printf("Not found \n");
+
+    printf("Insert the number you want to delete\n");
+    scanf("%d",&d);
+
+    Delete(d);
+
+    display();
+}
+
