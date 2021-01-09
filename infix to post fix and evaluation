@@ -2,37 +2,28 @@
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
-
 int i=0,j=0;
-int infix[1000];
-
 struct stack
 {
-    int size,top;
-    int *array;
+    int size,top,*array2,top2;
+        char *array;
 };
-
-
+char infix[1000];
 int is_empty(struct stack *s)
 {
     if(s->top == -1)
         return 1;
     else
         return 0;
-
 }//to check before popping if it is empty or not
-
-
 int is_full(struct stack *s)
 {
     if(s->top == s->size-1)
         return 1;
     else
         return 0;
-
 }//to check before pushing if it is full or not
-
-void push(struct stack *s,int value)
+void push(struct stack *s,char value)
 {
     if(is_full(s))
     {
@@ -44,8 +35,12 @@ void push(struct stack *s,int value)
         s->array[s->top] = value;//assigning value on top
     }
 }
-
-int pop(struct stack *s)
+void push2(struct stack *s,int value)
+{
+        s->top2++;//if stack is not full moving top to input
+        s->array2[s->top2] = value;//assigning value on top
+}
+char pop(struct stack *s)
 {
     if(is_empty(s))
     {
@@ -54,20 +49,27 @@ int pop(struct stack *s)
     }
     else//if stack is not empty
     {
-        int value=0;
+        char value=0;
         value = s->array[s->top];//assigning the value from top
         s->top--;//shifting the top location
         return value;
     }
-
 }
-
+int pop2(struct stack *s)
+{
+        int value=0;
+        value = s->array2[s->top2];//assigning the value from top
+        s->top2--;//shifting the top location
+        return value;
+}
 char top(struct stack *s)
 {
     return s->array[s->top];
-}//determining the top of stack
-
-
+}
+int top2(struct stack *s)
+{
+    return s->array2[s->top2];
+}
 int precedence(char value)
 {
     if(value == '^')
@@ -78,64 +80,53 @@ int precedence(char value)
         return 1;
     else
         return 0;
-}//determining the precedence of operators
-
-
+}
 int is_operator(char value)
 {
-    if(value == '*' || value == '/' || value == '+' || value == '-' || value == '^')
+    if(value == '*' || value == '/' || value == '+' || value == '-')
         return 1;
     else
         return 0;
-}//determining if it infix[i] is an operator or not
-
-
+}
 char *Final(char *infix)
 {
     struct stack *s = (struct stack*)malloc(sizeof(struct stack));;//allocating memory space for struct stack
     s->size = 100;
     s->top = -1;//as memory allocation will be from 0
     s->array = (char*)malloc(s->size*sizeof(char));//allocating memory space for array
-
-    char *postfix = (char*)malloc(sizeof(char) * strlen(infix+1) * 2); //memory allocation for postfix equal to the size of infix
-
+    char *postfix = (char*)malloc(sizeof(char) * strlen(infix+1)); //memory allocation for postfix equal to the size of infix
     while(infix[i]!= NULL)//loop will run until infix[i] is null
     {
         if(infix[i]=='(')
         {
-            push(s,infix[i]-48);
+            push(s,infix[i]);
             i++;
         }
         else if(infix[i]==')')
         {
             int k=i-1;
+            i++;
             while(top(s)!='(')
             {
-
                 if(is_operator(infix[k]))//if infix[i] is an operator
                 {
+                          //printf("e1%c ",top(s));
                     if(precedence(infix[k])> precedence(top(s)))//if infix[i] is greater than the previous operator stored in top
                     {
-                        push(s,infix[k]-48);//pushing operator in stack
+                              //printf("e2%c",infix[k]);
+                        push(s,infix[k]);//pushing operator in stack
                         k--;
                     }
                     else//if infix[i] is smaller than the previous operator stored in top
                     {
-                        postfix[j] = pop(s)+48;//pop the operator into postfix
+                        postfix[j] = pop(s);//will pop the operator into
                         j++;
-                        if(is_operator(infix[i]))//if the next index of infix is operator
-                            {
-                                postfix[j] = ' ';
-                                j++;//then we will print ',' to differentiate
-                            }
+                        postfix[j]=' ';
+                        j++;
                     }
                 }
-                else
-                    {
-                        k--;
-                    }
+                else{k--;}
             }
-            i++;
             pop(s);
         }
         else if(!is_operator(infix[i]))//if infix[i] is not an operator
@@ -143,49 +134,38 @@ char *Final(char *infix)
             postfix[j]=infix[i];
             i++;
             j++;
-            if(is_operator(infix[i]))
-            {
-            postfix[j] = ' ';
+            postfix[j]=' ';
             j++;
-            }
         }
         else//if infix[i] is an operator
         {
             if(precedence(infix[i])> precedence(top(s)))//if infix[i] is greater than the previous operator stored in top
             {
-                push(s,infix[i]-48);//pushing operator in stack
+                push(s,infix[i]);//pushing operator in stack
                 i++;
             }
             else//if infix[i] is smaller than the previous operator stored in top
             {
-                postfix[j] = pop(s)+48;//will pop the operator into
+                postfix[j] = pop(s);//will pop the operator into
                 j++;
-                if(is_operator(infix[i]))
-            {
-            postfix[j] = ' ';
-            j++;
-            }
+                 postfix[j]=' ';
+                 j++;
             }
         }
     }
-
-     while(!is_empty(s))
+    while(!is_empty(s))
     {
-        postfix[j] = pop(s)+48;
+        postfix[j] = pop(s);
         j++;
-        if(is_operator(infix[i]))
-            {
-            postfix[j] = ' ';
-            j++;
-            }
+         postfix[j]=' ';
+          j++;
     }
     postfix[j] = NULL;
     return postfix;
 }
-
 int rev(int a)
 {
-    int rev=0,rem;
+    int rev=0,rem=0;
     while(a!=0)
     {
         rem=a%10;
@@ -194,37 +174,37 @@ int rev(int a)
     }
     return rev;
 }
-
 int evaluate(char *postfix)
 {
-    struct stack *s = (struct stack*)malloc(sizeof(struct stack));;//allocating memory space for struct stack
-    s->size = 100;
-    s->top = -1;//as memory allocation will be from 0
-    s->array = (int*)malloc(s->size*sizeof(int));//allocating memory space for array
+    printf("Postfix:%s\n",postfix);
+    struct stack *s = (struct stack*)malloc(10000*sizeof(struct stack));//allocating memory space for struct stack
+    s->size = 10000;
+    s->top2 = -1;//as memory allocation will be from 0
+    s->array2 = (int*)malloc(s->size*sizeof(int));//allocating memory space for array
     i=0;
-    int n1,n2,r=0,num=0,k;
-    while(postfix[i]!=NULL)
+    int r=0;
+    while(postfix[i]!='\0')
     {
         if(postfix[i]== ' ')
-            {continue;}
+            {i++;continue;}
         else if(!is_operator(postfix[i]))
         {
-            num=0;
-            k=1;
+            int num=0,n1=0,k=1;
             while(postfix[i]!=' ')
             {
-                push(s,postfix[i]-48);
-                n1=pop(s);
+                n1=(postfix[i]-48);
                 num=num+k*n1;
                 k=k*10;
+                i++;
             }
-            n1=rev(num);
-            push(s,n1);
+            num=rev(num);
+            push2(s,num);
         }
         else
             {
-                n1=pop(s);
-                n2=pop(s);
+                      int n1=0,n2=0;
+                n1=pop2(s);
+                n2=pop2(s);
                 if(postfix[i]=='+')
                     {
                         r=n2+n1;
@@ -249,21 +229,18 @@ int evaluate(char *postfix)
                     {
                         r=pow(n2,n1);
                     }
-                push(s,r);
+                push2(s,r);
+                i++;
             }
-            i++;
-
     }
-        return r;
+        return pop2(s);
     }
-
-
 int main(void)
 {
-    int a;
+    int i,a=0;
+    char post[3000]="";
     scanf("%s",&*infix);
-    printf("%s\n",Final(infix));
     a=evaluate(Final(infix));
-    printf("Result %d\n",a);
+    printf("%d",a);
     return 0;
 }
