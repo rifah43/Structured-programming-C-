@@ -1,0 +1,85 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+struct stack
+{
+    int size,top,*array;
+
+};
+
+
+int is_empty(struct stack *s)
+{
+    if(s->top == -1)
+        return 1;
+    else
+        return 0;
+
+}//to check before popping if it is empty or not
+
+
+int is_full(struct stack *s)
+{
+    if(s->top == s->size-1)
+        return 1;
+    else
+        return 0;
+
+}//to check before pushing if it is full or not
+
+void push(struct stack *s,int value)
+{
+    if(is_full(s))
+    {
+        printf("Stack overflow\n");
+    }
+    else
+    {
+        s->top++;//if stack is not full moving top to input
+        s->array[s->top] = value;//assigning value on top
+    }
+}
+
+int pop(struct stack *s)
+{
+    if(is_empty(s))
+    {
+        printf("Stack is empty\n");
+        return -1;
+    }
+    else//if stack is not empty
+    {
+        int value = s->array[s->top];//assigning the value from top
+        s->top--;//shifting the top location
+        return value;
+    }
+
+}
+int main(void)
+{
+    struct stack *s = (struct stack*)malloc(sizeof(struct stack));//allocating memory space for struct stack
+    s->size = 10;
+    s->top = -1;//as memory allocation will be from 0
+    s->array = (int*)malloc(s->size*sizeof(int));//allocating memory space for array
+
+    printf("e %d\n",is_empty(s));
+    printf("popped %d\n",pop(s));
+    push(s,12);
+    printf("e %d\n",is_empty(s));
+    printf("f %d\n",is_full(s));
+    push(s,13);
+    push(s,14);
+    push(s,15);
+    push(s,106);
+    push(s,10);
+    push(s,10);
+    push(s,10);
+    push(s,80);
+    push(s,5);
+    printf("empty %d\n",is_empty(s));
+    printf("full %d\n",is_full(s));
+    printf("top %d\n",s->array[s->top-1]);
+    printf("popped %d\n",pop(s));
+
+}
