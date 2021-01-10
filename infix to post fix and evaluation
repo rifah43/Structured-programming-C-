@@ -90,7 +90,7 @@ int is_operator(char value)
 }
 char *Final(char *infix)
 {
-    struct stack *s = (struct stack*)malloc(1000*sizeof(struct stack));;//allocating memory space for struct stack
+    struct stack *s = (struct stack*)malloc(1000*sizeof(struct stack));//allocating memory space for struct stack
     s->size = 100;
     s->top = -1;//as memory allocation will be from 0
     s->array = (char*)malloc(s->size*sizeof(char));//allocating memory space for array
@@ -115,15 +115,13 @@ char *Final(char *infix)
                 {
                     if(precedence(infix[k])> precedence(top(s)))//if infix[i] is greater than the previous operator stored in top
                     {
-                              postfix[j]=' ';
-                              j++;
                         push(s,infix[k]);//pushing operator in stack
                         k--;
                     }
                     else//if infix[i] is smaller than the previous operator stored in top
                     {
-                              postfix[j]=' ';
-                              j++;
+                        postfix[j]=' ';
+                        j++;
                         postfix[j] = pop(s);//will pop the operator into
                         j++;
                         postfix[j]=' ';
