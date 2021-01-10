@@ -110,10 +110,8 @@ char *Final(char *infix)
             {
                 if(is_operator(infix[k]))//if infix[i] is an operator
                 {
-                          //printf("e1%c ",top(s));
                     if(precedence(infix[k])> precedence(top(s)))//if infix[i] is greater than the previous operator stored in top
                     {
-                              //printf("e2%c",infix[k]);
                         push(s,infix[k]);//pushing operator in stack
                         k--;
                     }
