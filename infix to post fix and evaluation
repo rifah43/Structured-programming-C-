@@ -83,18 +83,20 @@ int precedence(char value)
 }
 int is_operator(char value)
 {
-    if(value == '*' || value == '/' || value == '+' || value == '-' || value == '^' || value == '%')
+    if(value == '*' || value == '/' || value == '+' || value == '-')
         return 1;
     else
         return 0;
 }
 char *Final(char *infix)
 {
-    struct stack *s = (struct stack*)malloc(sizeof(struct stack));;//allocating memory space for struct stack
+    struct stack *s = (struct stack*)malloc(1000*sizeof(struct stack));;//allocating memory space for struct stack
     s->size = 100;
     s->top = -1;//as memory allocation will be from 0
     s->array = (char*)malloc(s->size*sizeof(char));//allocating memory space for array
+
     char *postfix = (char*)malloc(sizeof(char) * strlen(infix+1)); //memory allocation for postfix equal to the size of infix
+
     while(infix[i]!= NULL)//loop will run until infix[i] is null
     {
         if(infix[i]=='(')
@@ -108,15 +110,20 @@ char *Final(char *infix)
             i++;
             while(top(s)!='(')
             {
+
                 if(is_operator(infix[k]))//if infix[i] is an operator
                 {
                     if(precedence(infix[k])> precedence(top(s)))//if infix[i] is greater than the previous operator stored in top
                     {
+                              postfix[j]=' ';
+                              j++;
                         push(s,infix[k]);//pushing operator in stack
                         k--;
                     }
                     else//if infix[i] is smaller than the previous operator stored in top
                     {
+                              postfix[j]=' ';
+                              j++;
                         postfix[j] = pop(s);//will pop the operator into
                         j++;
                         postfix[j]=' ';
@@ -132,18 +139,20 @@ char *Final(char *infix)
             postfix[j]=infix[i];
             i++;
             j++;
-            postfix[j]=' ';
-            j++;
         }
         else//if infix[i] is an operator
         {
             if(precedence(infix[i])> precedence(top(s)))//if infix[i] is greater than the previous operator stored in top
             {
+                      postfix[j]=' ';
+                      j++;
                 push(s,infix[i]);//pushing operator in stack
                 i++;
             }
             else//if infix[i] is smaller than the previous operator stored in top
             {
+                      postfix[j]=' ';
+                      j++;
                 postfix[j] = pop(s);//will pop the operator into
                 j++;
                  postfix[j]=' ';
@@ -172,9 +181,10 @@ int rev(int a)
     }
     return rev;
 }
+
 int evaluate(char *postfix)
 {
-    printf("Postfix:%s\n",postfix);
+          printf("Postfix:%s\n",postfix);
     struct stack *s = (struct stack*)malloc(10000*sizeof(struct stack));//allocating memory space for struct stack
     s->size = 10000;
     s->top2 = -1;//as memory allocation will be from 0
@@ -188,7 +198,7 @@ int evaluate(char *postfix)
         else if(!is_operator(postfix[i]))
         {
             int num=0,n1=0,k=1;
-            while(postfix[i]!=' ')
+            while(postfix[i]!=' '&&!is_operator(postfix[i]))
             {
                 n1=(postfix[i]-48);
                 num=num+k*n1;
@@ -201,6 +211,7 @@ int evaluate(char *postfix)
         else
             {
                       int n1=0,n2=0;
+
                 n1=pop2(s);
                 n2=pop2(s);
                 if(postfix[i]=='+')
@@ -227,9 +238,12 @@ int evaluate(char *postfix)
                     {
                         r=pow(n2,n1);
                     }
+
                 push2(s,r);
                 i++;
             }
+
+
     }
         return pop2(s);
     }
