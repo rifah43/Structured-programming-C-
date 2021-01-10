@@ -250,7 +250,6 @@ int evaluate(char *postfix)
 int main(void)
 {
     int i,a=0;
-    char post[3000]="";
     scanf("%s",&*infix);
     a=evaluate(Final(infix));
     printf("%d",a);
