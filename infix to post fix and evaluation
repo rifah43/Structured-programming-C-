@@ -83,7 +83,7 @@ int precedence(char value)
 }
 int is_operator(char value)
 {
-    if(value == '*' || value == '/' || value == '+' || value == '-')
+    if(value == '*' || value == '/' || value == '+' || value == '-' || value == '^' || value == '%')
         return 1;
     else
         return 0;
