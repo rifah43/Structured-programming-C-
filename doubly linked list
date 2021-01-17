@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *pre;
+    struct node *next;
+};//creating node
+
+struct node *head = NULL;
+struct node *last = NULL;
+struct node *current = NULL;
+
+//Create Linked List
+void Insert(int new_data) {
+   // Allocate memory for new node;
+   struct node *new_node = (struct node*) malloc(sizeof(struct node));
+   new_node->data = new_data;
+   new_node->pre = NULL;
+   new_node->next = NULL;
+   // If head is empty, create new list
+   if(head==NULL) {
+      head = new_node;
+      return;
+   }
+   current = head;
+   // move to the end of the list
+   while(current->next!=NULL)
+      current = current->next;
+   // Insert new_node at the end of the list
+   current->next = new_node;
+   last = new_node;
+   new_node->pre = current;
+}
+
+//display the list
+void display_input() {
+   struct node *ptr = head;
+   while(ptr != NULL) {
+      printf(" %d\n",ptr->data);
+      ptr = ptr->next;
+   }
+}
+int main(void)
+{
+    int n,i,dig,index,s,d;
+    printf("Insert input number \n");
+    scanf("%d",&n);
+    for(i=1;i<=n;i++)
+    {
+        printf("Input numbers \n");
+        scanf("%d",&dig);
+        Insert(dig);
+    }
+
+    display_input();
+}
