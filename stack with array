@@ -1,0 +1,55 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+int N=1000;
+int stack[1000];
+int top=-1;
+
+void push()
+{
+    int a;
+    printf("Enter data\n");
+    scanf("%d",&a);
+    if(top==N-1)
+    {
+        printf("Overflow\n");
+    }
+    else
+    {
+        top++;
+        stack[top]=a;
+    }
+}
+int pop()
+{
+    int a;
+    if(top==-1)
+    {
+        printf("Underflow\n");
+    }
+    else
+    {
+        a=stack[top];
+        top--;
+        return a;
+    }
+}
+
+int main(void)
+{
+    int i;
+    push();
+    push();
+    push();
+    push();
+    for(i=0;i<=top;i++)
+    {
+        printf("%d\n",stack[i]);
+    }
+    int x=pop();
+    for(i=0;i<=top;i++)
+    {
+        printf("%d\n",stack[i]);
+    }
+}
