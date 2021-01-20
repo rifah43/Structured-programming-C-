@@ -1,0 +1,79 @@
+#include<stdio.h>
+#include<string.h>
+char tree[100];
+
+int root()
+{
+    if(tree[0]!='\0')
+    {
+        printf("Root has been set previously\n");
+    }
+    else
+    {
+        printf("Enter the root\n");
+        scanf("%c",&tree[0]);
+    }
+}
+int create()
+{
+    int parent;
+    char value;
+    printf("Set parent index and left child or enter ! for no value\n");
+    scanf("%d %c",&parent,&value);
+    setLeft(parent,value);
+    printf("Set parent index and right child or enter ! for no value\n");
+    scanf("%d %c",&parent,&value);
+    setRight(parent,value);
+}
+void setLeft(int parent,char value)
+{
+    if(tree[parent]!='\0')
+    {
+        tree[(parent*2)+1]=value;
+    }
+    else
+        printf("Parent is unavailable\n",parent);
+   return 0;
+}
+
+void setRight(int parent,char value)
+{
+    if(tree[parent]!='\0')
+    {
+        tree[(parent*2)+2]=value;
+    }
+    else
+        printf("Parent is unavailable\n",parent);
+  return 0;
+}
+int Tree()
+{
+    int i;
+    for(i=0;i<100;i++)
+    {
+        if(tree[i]=='\0' || tree[i]=='!')
+        {
+            printf("_ ");
+        }
+        else
+        {
+            printf("%c ",tree[i]);
+        }
+    }
+}
+int main()
+{
+    int i,x,c;
+    root();
+    for(i=1;i<=100;i++)
+    {
+        create();
+        printf("Enter 1 to continue and -1 to break\n");
+        scanf("%d",&c);
+        if(c==-1)
+        {
+            break;
+        }
+    }
+    Tree();
+}
