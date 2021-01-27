@@ -1,0 +1,56 @@
+#include<stdio.h>
+int list[100];
+int templist[100];
+
+int Merge(int Lpos, int Rpos, int Rightend){
+    int i,Leftend=Rpos-1,TmpPos=Lpos, numelement=Rightend-Lpos+1 ;
+
+   while(Lpos<=Leftend && Rpos<=Rightend){
+    if(list[Lpos]<=list[Rpos])
+    {
+        templist[TmpPos++]=list[Lpos++];
+    }
+    else{
+        templist[TmpPos++]=list[Rpos++];
+    }
+   }
+   while (Lpos<=Leftend)
+   {
+      templist[TmpPos++]=list[Lpos++];
+   }
+   while (Rpos<=Rightend){
+    templist[TmpPos++]=list[Rpos++];
+   }
+   for(i=0;i<=numelement;i++)
+   {
+       list[Rightend]=templist[Rightend];
+       Rightend--;
+   }
+
+}
+int Msort(int left, int right)
+{
+    int center;
+    if(left<right){
+        center=(left+right)/2;
+        Msort(left,center);
+        Msort(center+1,right);
+        Merge(left,center+1,right);
+    }
+}
+int main()
+{
+int n,i,j;
+    printf("Enter a number: \n");
+    scanf("%d",&n);
+    printf("Enter the digits in the array:\n");
+    for (i=0;i<n;i++)
+    {
+        scanf("%d",&list[i]);
+    }
+    Msort(0,n-1);
+     for (i=0;i<n;i++)
+    {
+        printf("%d ",list[i]);
+    }
+}
