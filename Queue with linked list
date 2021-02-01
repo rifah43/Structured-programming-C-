@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+int n;
+struct node
+{
+    int data;
+    struct node* next;
+};
+struct node* front='\0';
+struct node* rear='\0';
+void enqueue(int val)
+{
+    struct node* new_node=(struct node*) malloc(sizeof(struct node));
+    new_node->data=val;
+    new_node->next='\0';
+    if(front=='\0' && rear=='\0')
+    {
+        front=rear=new_node;
+    }
+    else
+    {
+        rear->next=new_node;
+        rear=new_node;
+    }
+}
+
+void dequeue()
+{
+    struct node *temp;
+    if(front=='\0' && rear=='\0')
+    {
+        printf("Blank.\n");
+    }
+    else
+    {
+        printf("%d",front->data);
+        front=front->next;
+        free(temp);
+    }
+}
+void Display()
+{
+    struct node *temp;
+    if(front=='\0' && rear=='\0')
+    {
+        printf("Blank.\n");
+    }
+    else
+    {
+        temp=front;
+        while(temp!='\0')
+        {
+            printf("%d",temp->data);
+            temp=temp->next;
+        }
+    }
+}
+void peek()
+{
+    if(front=='\0' && rear=='\0')
+    {
+        printf("Blank.\n");
+    }
+    else
+    {
+        printf("%d\n",front->data);
+    }
+}
+int main()
+{
+    int i,dig;
+    printf("Insert input number \n");
+    scanf("%d",&n);
+    for(i=1;i<=n;i++)
+    {
+        printf("Input numbers \n");
+        scanf("%d",&dig);
+        enqueue(dig);
+    }
+    Display();
+    peek();
+    dequeue();
+    dequeue();
+    Display();
+    peek();
+}
