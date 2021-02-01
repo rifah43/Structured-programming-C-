@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int Queue[100];
+int front=-1,rear=-1,n;
+
+void enqueue(int val)
+{
+    if(rear==n-1)
+    {
+        printf("Overflow.\n");
+    }
+    else if(front==-1 && rear==-1)
+    {
+        front++;rear++;
+        Queue[rear]=val;
+    }
+    else
+    {
+        rear++;
+        Queue[rear]=val;
+    }
+}
+
+void dequeue()
+{
+    int value;
+    if(front==-1 && rear==-1)
+    {
+        printf("Underflow.\n");
+    }
+    else if(front==rear)
+    {
+        front=rear=-1;
+    }
+    else
+    {
+        value=Queue[front];
+        front++;
+        return value;
+    }
+}
+void Display()
+{
+    int i;
+    if(front==-1 && rear==-1)
+    {
+        printf("Blank.\n");
+    }
+    else
+    {
+        for(i=front;i<=rear;i++)
+    {
+        printf("%d\n",Queue[i]);
+    }
+    }
+}
+void peek()
+{
+    if(front==-1 && rear==-1)
+    {
+        printf("Blank.\n");
+    }
+    else
+    {
+        printf("%d\n",Queue[front]);
+    }
+}
+int main()
+{
+    int i,dig;
+    printf("Insert input number \n");
+    scanf("%d",&n);
+    for(i=1;i<=n;i++)
+    {
+        printf("Input numbers \n");
+        scanf("%d",&dig);
+        enqueue(dig);
+    }
+    Display();
+    peek();
+    dequeue();
+    dequeue();
+    Display();
+    peek();
+}
