@@ -27,6 +27,7 @@ void enqueue(int val)
 void dequeue()
 {
     struct node *temp;
+    temp=front;
     if(front=='\0' && rear=='\0')
     {
         printf("Blank.\n");
