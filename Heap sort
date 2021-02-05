@@ -1,0 +1,53 @@
+#include <stdio.h>
+int Heap[100];
+void swap(int *a, int *b)
+{
+    int temp=*a;
+    *a=*b;
+    *b=temp;
+}
+void heapify(int n, int index)
+{
+    int largest=index;
+    int left=2*index+1;
+    int right=2*index+2;
+
+    if (left<n && Heap[left]>Heap[largest]){largest=left;}
+    if (right<n && Heap[right]>Heap[largest]){largest=right;}
+    if (largest!=index)
+    {
+      swap(&Heap[index],&Heap[largest]);
+      heapify(n,largest);
+    }
+}
+void heap(int n)
+{
+      for (int i=n/2-1;i>=0;i--){heapify(n,i);}
+}
+void heapsort(int n)
+{
+    heap(n);
+    for (int i=n-1;i>=0;i--)
+    {
+      swap(&Heap[0], &Heap[i]);
+      heapify(i, 0);
+    }
+}
+void Display(int n)
+{
+    for (int i=0;i<n;++i){printf("%d ",Heap[i]);}
+}
+int main()
+{
+    int n,i;
+    printf("Enter the number of elements\n");
+    scanf("%d",&n);
+    printf("Enter the nodes:\n");
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&Heap[i]);
+    }
+    heapsort(n);
+    printf("Array after heap sort\n");
+    Display(n);
+}
