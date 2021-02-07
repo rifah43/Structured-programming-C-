@@ -32,15 +32,16 @@ void Display()
 int main()
 {
     int i=0,dig;
-    printf("Enter the nodes:\n");
+    printf("Enter the node:\n");
     while (scanf("%d",&dig)!= EOF)
     {
-        printf("\n");
         Heap[i]=dig;
         i++;
         n++;
         heap();
         printf("The heap\n");
         Display();
+        printf("\n");
+        printf("Enter the node:\n");
     }
 }
