@@ -57,7 +57,7 @@ int main()
     heap();
     printf("The heap\n");
     Display();
-    printf("\n")
+    printf("\n");
     printf("Enter the number of elements\n");
     scanf("%d",&del);
     deletion(del);
